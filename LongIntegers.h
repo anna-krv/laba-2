@@ -30,6 +30,9 @@ public:
 	LongInt operator+(const LongInt& other) const;
 	operator string() const;
 	LongInt multiply(int n) const;
+	//pre: n - is a "digit"
+	//pre: we are expected to get integer result
+	LongInt operator/ (int n) const;
 	LongInt& shift(int x);
 	static Multer *m;
 	LongInt operator *(const LongInt& other);
