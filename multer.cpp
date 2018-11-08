@@ -15,6 +15,8 @@ LongInt UsualMulter::mult(const LongInt& first, const LongInt& second) {
 		newLongInt.shift(i);
 		result = result + newLongInt;
 	}
+	if (first.getSign() != second.getSign())
+		result.setSign(false);
 	return result;
 }
 
@@ -77,7 +79,10 @@ LongInt KarMulti(const LongInt& first, const LongInt& second) {
 
 
 LongInt KaratsubaMulter::mult(const LongInt& first, const LongInt& second) {
-	return KarMulti(first, second);
+	LongInt result = KarMulti(first, second);
+	if (first.getSign() != second.getSign())
+		result.setSign(false);
+	return result;
 }
 
 /*
@@ -165,7 +170,10 @@ LongInt Toom3Multi(const LongInt& first, const LongInt& second) {
 }
 
 LongInt Toom3Multer::mult(const LongInt& first, const LongInt& second) {
-	return Toom3Multi(first, second);
+	LongInt result=Toom3Multi(first, second);
+	if (first.getSign() != second.getSign())
+		result.setSign(false);
+	return result;
 }
 
 LongInt SchonhageMulti(const LongInt& first, const LongInt& second) {
@@ -174,7 +182,10 @@ LongInt SchonhageMulti(const LongInt& first, const LongInt& second) {
 
 
 LongInt SchonhageMulter::mult(const LongInt& first, const LongInt& second) {
-	return SchonhageMulti(first, second);
+	LongInt result=SchonhageMulti(first, second);
+	if (first.getSign() != second.getSign())
+		result.setSign(false);
+	return result;
 }
 
 

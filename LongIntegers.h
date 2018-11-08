@@ -3,7 +3,13 @@
 #include <vector>
 #include<string>
 #include <iostream>
+#include <iomanip>
 using namespace std;
+
+//Tests to check if n is prime
+bool LehmannTest(long long n);
+bool RabinMillerTest(long long n);
+bool SolovayStrassenTest(long long n);
 
 //returns min 2^k that 2^k>=n
 int minPower2(int n);
@@ -12,6 +18,7 @@ int minPower2(int n);
 const int base = 10;
 
 class Multer;
+class LongReal;
 
 class LongInt {
 public:
@@ -27,14 +34,16 @@ public:
 	//pre: n - is a "digit"
 	//pre: we are expected to get integer result
 	LongInt operator/ (int n) const;
+	LongReal operator/(const LongInt& other);
 	LongInt& shift(int x);
 	static Multer *m;
 	LongInt operator *(const LongInt& other);
+	LongReal inverse() const; //Cook's algorithm
 	int getCap() const;
 	int operator[](int i) const;
 	bool getSign() const;
 	//compares two LongInts 
-	//based on their ABS! value
+	//based on their ABS! values
 	bool operator >=(const LongInt& other) const;
 	void setSign(bool s);
 private:
@@ -43,74 +52,61 @@ private:
 	bool sign = true;
 };
 
-
 LongInt operator-(const LongInt& first, const LongInt& other);
+
+class LongReal{
+public:
+	LongReal(string s="", bool sign_ = true);
+	LongReal(LongInt myLong_, int decim_=0);
+	LongReal operator+(const LongReal& other) const;
+	LongReal operator *(const LongReal& other);
+	operator string() const;
+	int getDecim() const;
+	friend LongReal operator-(const LongReal& first, const LongReal& other);
+	LongReal cut(int x); //leaves only x decimal points 
+private:
+	LongInt myLong; //long integer=long real*10^decim
+	int decim=0; //number of digits after decimal point
+};
+
 
 
 class Multer {
 public:
-	virtual string getName() {
-		return "";
-	}
+	Multer(string s) {cout << left << setw(20) << s;}
 	virtual LongInt mult(const LongInt& first, const LongInt& second) {
 		return LongInt("");
 	}
 };
 
 
-
-
 class UsualMulter : public Multer {
 public:
-	UsualMulter() { cout << getName() << endl; }
-	string getName() {
-		return "Usual Multer";
-	}
+	UsualMulter():Multer("Usual Multer ") {}
 	LongInt mult(const LongInt& first, const LongInt& second);
 };
 
 class KaratsubaMulter : public Multer {
 public:
-	KaratsubaMulter() { cout << getName() << endl; }
-	string getName() {
-		return "Karatsuba Multer";
-	}
+	KaratsubaMulter() :Multer("Karatsuba Multer ") {}
 	LongInt mult(const LongInt& first, const LongInt& second);
 };
 
 
 class Toom3Multer : public Multer {
 public:
-	Toom3Multer() { cout << getName() << endl; }
-	string getName() {
-		return "Toom-3 Multer";
-	}
+	Toom3Multer() :Multer("Toom-3 Multer ") {}
 	LongInt mult(const LongInt& first, const LongInt& second);
 };
 
 class SchonhageMulter : public Multer {
 public:
-	SchonhageMulter()  { cout << getName() << endl; }
-	string getName(){
-		return "Schonhage Multer";
-	}
+	SchonhageMulter() :Multer("Schonhage Multer ") {}
 	LongInt mult(const LongInt& first, const LongInt& second);
 };
 
 class StrassenMulter : public Multer {
 public:
-	StrassenMulter() { cout << getName() << endl; }
-	string getName() {
-		return "Strassen Multer";
-	}
+	StrassenMulter() :Multer("Strassen Multer ") {}
 	LongInt mult(const LongInt& first, const LongInt& second);
 };
-
-
-//Tests to check if n is prime
-
-bool EasyTest(long long n);
-
-bool RabinMillerTest(long long n);
-
-bool SolovayStrassenTest(long long n);
